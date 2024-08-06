@@ -19,3 +19,8 @@ services:
     ports:
       - "2379:2379"
       - "2380:2380"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

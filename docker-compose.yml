@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  etcd:
+    image: quay.io/coreos/etcd:v3.5.2
+    container_name: ${ETCD_NAME}
+    restart: always
+    environment:
+      - ETCD_NAME=${ETCD_NAME}
+      - ETCD_DATA_DIR=/etcd-data
+      - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://${NODE_IP}:2380
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://${NODE_IP}:2379
+      - ETCD_INITIAL_CLUSTER=${ETCD_INITIAL_CLUSTER}
+      - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster
+    volumes:
+      - ./etcd-data:/etcd-data
+    ports:
+      - "2379:2379"
+      - "2380:2380"
